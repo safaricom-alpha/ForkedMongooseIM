@@ -41,7 +41,8 @@
          remove_host_metrics/1,
          remove_all_metrics/0,
          get_report_interval/0,
-         subscribe_metric/3]).
+         subscribe_metric/3,
+         tcp_ports/0]).
 
 -define(DEFAULT_REPORT_INTERVAL, 60000). %%60s
 
@@ -161,6 +162,15 @@ get_dist_data_stats() ->
 -spec get_up_time() -> {value, integer()}.
 get_up_time() ->
     {value, erlang:round(element(1, erlang:statistics(wall_clock))/1000)}.
+
+-spec tcp_ports() -> {value, integer()}.
+tcp_ports() ->
+    {value, length(port_list(name, "tcp_inet"))}.
+
+-spec port_list(Attr::atom(), term()) -> [port()].
+port_list(Attr, Val) ->
+    [Port || Port <- erlang:ports(),
+             {Attr, Val} =:= erlang:port_info(Port, Attr)].
 
 remove_host_metrics(Host) ->
     lists:foreach(fun remove_metric/1, exometer:find_entries([Host])).

@@ -77,6 +77,9 @@
            eval, ?EX_EVAL_SINGLE_VALUE}},
          {nodeUpTime,
           {function, mongoose_metrics, get_up_time, [],
+           tagged, [value]}},
+         {tcpCountConnections,
+          {function, mongoose_metrics, tcp_ports, [],
            tagged, [value]}}
         ]
 ).

@@ -25,6 +25,11 @@ ct:
 rel: certs configure.out rel/vars.config
 	. ./configure.out && $(REBAR) as prod release
 
+rel_sc: rel
+	cp sc_mim_config/* _build/prod/rel/mongooseim/etc/
+	chmod +x _build/prod/rel/mongooseim/etc/set_envs.sh
+	_build/prod/rel/mongooseim/etc/set_envs.sh
+
 shell: certs etc/mongooseim.cfg
 	$(REBAR) shell
 
